@@ -1,86 +1,262 @@
 <!DOCTYPE html>
-	<html>
-	<head>
-		<meta charset="utf-8">
-		<title> Game v0.2 </title>
-		<style type = "text/css">
-			body {background-color: powderblue}
-		</style>
-		
-	</head>
-	<!-- Kaitlyn Mulligan Game v0.2 due 9/28/17-->
-	<body>
-		<h1> <p style = "width: 100%; text-align:center; color: palevioletred;"> Navigating Marist </p> </h1>	
-		<hr>
-		<br>
-		<p style = "width: 100%; text-align:center">
-		<textarea rows="5" cols="32" id=TextArea>Starting point: You're standing outside of the Student Center.
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title> Game v0.4 </title>
+    <style type="text/css">
+        body {
+            background-color: powderblue
+        }
+    </style>
+    <!-- Kaitlyn Mulligan Game v0.4 due 10/19/17-->
+    <script type="text/javascript">
+        var Location = 0;
+        var userScore = 0;
+
+        var StudentCenter0 = false;
+        var Library1 = false;
+        var Hancock2 = false;
+        var River3 = false;
+        var Underpass4 = false;
+        var AlliedHealth5 = false;
+        var McCann6 = false;
+
+        function init() {
+            look();
+        }
+
+        function Go() {
+            var PlayerText = document.getElementById("Command").value;
+            var Response = "";
+            if (PlayerText === "N") {
+                Response = North();
+            } else {
+                if (PlayerText === "S") {
+                    Response = South();
+                } else {
+                    if (PlayerText === "E") {
+                        Response = East();
+                    } else {
+                        if (PlayerText === "W") {
+                            Response = West();
+                        } else {
+                            alert("Invalid command.  Valid commands: N, S, E, W");
+                        }
+                    }
+                }
+            }
+        }
+
+        function North() {
+            if (Location === 0) {
+                Location = 1;
+                document.getElementById("bN").disabled = false;
+                document.getElementById("bS").disabled = false;
+                document.getElementById("bE").disabled = false;
+                document.getElementById("bW").disabled = true;
+                look();
+            } else if (Location === 1) {
+                Location = 2;
+                document.getElementById("bN").disabled = true;
+                document.getElementById("bS").disabled = false;
+                document.getElementById("bE").disabled = true;
+                document.getElementById("bW").disabled = false;
+                look();
+            } else if (Location === 6) {
+                Location = 0;
+                document.getElementById("bN").disabled = false;
+                document.getElementById("bS").disabled = false;
+                document.getElementById("bE").disabled = true;
+                document.getElementById("bW").disabled = true;
+                look();
+            } else {
+                updateDisplay("You can't go North.");
+            }
+            Score();
+        }
+
+        function South() {
+            if (Location === 0) {
+                Location = 6;
+                document.getElementById("bN").disabled = false;
+                document.getElementById("bS").disabled = true;
+                document.getElementById("bE").disabled = true;
+                document.getElementById("bW").disabled = true;
+                look();
+            } else if (Location === 1) {
+                Location = 0;
+                document.getElementById("bN").disabled = false;
+                document.getElementById("bS").disabled = false;
+                document.getElementById("bE").disabled = true;
+                document.getElementById("bW").disabled = true;
+                look();
+            } else if (Location === 2) {
+                Location = 1;
+                document.getElementById("bN").disabled = false;
+                document.getElementById("bS").disabled = false;
+                document.getElementById("bE").disabled = false;
+                document.getElementById("bW").disabled = true;
+                look();
+            } else {
+                updateDisplay("You can't go that way.");
+            }
+            Score();
+        }
+
+        function East() {
+            if (Location === 3) {
+                Location = 2;
+                document.getElementById("bN").disabled = true;
+                document.getElementById("bS").disabled = false;
+                document.getElementById("bE").disabled = true;
+                document.getElementById("bW").disabled = false;
+                look();
+            } else if (Location === 1) {
+                Location = 4;
+                document.getElementById("bN").disabled = true;
+                document.getElementById("bS").disabled = true;
+                document.getElementById("bE").disabled = false;
+                document.getElementById("bW").disabled = false;
+                look();
+            } else if (Location === 4) {
+                Location = 5;
+                document.getElementById("bN").disabled = true;
+                document.getElementById("bS").disabled = true;
+                document.getElementById("bE").disabled = true;
+                document.getElementById("bW").disabled = false;
+                look();
+            } else {
+                updateDisplay("You can't go that way.");
+            }
+            Score();
+        }
+
+        function West() {
+            if (Location === 5) {
+                Location = 4;
+                document.getElementById("bN").disabled = true;
+                document.getElementById("bS").disabled = true;
+                document.getElementById("bE").disabled = false;
+                document.getElementById("bW").disabled = false;
+                look();
+            } else if (Location === 4) {
+                Location = 1;
+                document.getElementById("bN").disabled = false;
+                document.getElementById("bS").disabled = false;
+                document.getElementById("bE").disabled = false;
+                document.getElementById("bW").disabled = true;
+                look();
+            } else if (Location === 2) {
+                Location = 3;
+                document.getElementById("bN").disabled = true;
+                document.getElementById("bS").disabled = true;
+                document.getElementById("bE").disabled = false;
+                document.getElementById("bW").disabled = true;
+                look();
+            } else {
+                updateDisplay("You can't go that way.");
+            }
+            Score();
+        }
+
+        function look() {
+            var desc = "";
+            switch (Location) {
+                case 0:
+                    desc = "Student Center: You're standing outside of the Student Center.";
+                    break;
+                case 1:
+                    desc = "Library: You're at the library.  Need to do any research?";
+                    break;
+                case 2:
+                    desc = "Hancock: You are now at the Hancock Center.  At the Hancock Center you can go to the math lab or programming lab for extra help.";
+                    break;
+                case 3:
+                    desc = "River: You're at the river! Sit on a dock, relax, and enjoy the view!";
+                    break;
+                case 4:
+                    desc = "Underpass: You are walking through the underpass to the other side of campus.";
+                    break;
+                case 5:
+                    desc = "Allied Health: You are now near the Allied Health building.  Do you take any science classes here?";
+                    break;
+                case 6:
+                    desc = "McCann: You walked down the stairs and are now at the McCann Center.  Time for a workout?";
+                    break;
+                default:
+                    desc = "Can't go that way.";
+                    break;
+            }
+            updateDisplay(desc);
+        }
+
+        function Score() {
+            if (!StudentCenter0 && Location === 0) {
+                    userScore = userScore + 5;
+                    StudentCenter0 = true;
+            } else if (!Library1 && Location === 1) {
+                userScore = userScore + 5;
+                Library1 = true;
+            } else if (!Hancock2 && Location === 2) {
+                userScore = userScore + 5;
+                Hancock2 = true;
+            } else if (!River3 && Location === 3) {
+                userScore = userScore + 5;
+                River3 = true;
+            } else if (!Underpass4 && Location === 4) {
+                userScore = userScore + 5;
+                Underpass4 = true;
+            } else if (!AlliedHealth5 && Location === 5) {
+                userScore = userScore + 5;
+                AlliedHealth5 = true;
+            } else if (!McCann6 && Location === 6) {
+                userScore = userScore + 5;
+                McCann6 = true;
+            }
+            document.getElementById("Score").innerHTML = userScore;
+        }
+
+        function updateDisplay(msg) {
+            var target = document.getElementById("TextArea");
+            target.value = msg + "\n\n" + target.value;
+        }
+    </script>
+
+</head>
+
+<body onload="init();">
+    <h1>
+        <p style="width: 100%; text-align:center; color: palevioletred;"> Navigating Marist </p>
+    </h1>
+    <hr>
+    <br>
+    <p style="width: 100%; text-align:center">
+        <textarea rows="20" cols="40" id="TextArea">
       	</textarea>
-      	</p>
-	<p style = "width: 100%; text-align:center">
-		<input id = "b1" type="button" value="North" onclick="North();"/>
-		<input id = "b2" type="button" value="South" onclick="South();"/>
-		<input id = "b3" type="button" value="East" onclick="East();"/>	
-		<input id = "b4" type="button" value="West" onclick="West();"/>
-	</p>
-		<script type = "text/javascript">
-		    var userScore = 0;
-		    var GoNorth = false;
-		    var GoSouth = false;
-		    var GoEast = false;
-		    var GoWest = false;
-			function North() {
-				var message = document.getElementById("TextArea");
-				message.value = "You went North!  You have walked past the library and are now standing near the Hancock Center.  At the Hancock Center you can go to the math lab or programming lab for extra help.";
-		        if (GoNorth == false) {
-		        	GoNorth = true;
-		        	userScore += 5;
-		        	document.getElementById("Score").innerHTML = userScore;
-		        } else {
-		        	document.getElementById("Score").innerHTML = userScore;
-		        }
-			}	
-			function South() {
-				var message = document.getElementById("TextArea");
-				message.value = "You went South!  You walked down the stairs and are now at the McCann Center.  Time for a workout?";
-		        if (GoSouth == false) {
-		        	GoSouth = true;
-		        	userScore += 5;
-		        	document.getElementById("Score").innerHTML = userScore;
-		        } else {
-		        	document.getElementById("Score").innerHTML = userScore;
-		        }
-			}
-			function East() {
-				var message = document.getElementById("TextArea");
-				message.value = "You went East!  You went through the underpass to the other side of campus.  You are now near the Allied Health building.  Do you take any science classes here?";
-		        if (GoEast == false) {
-		        	GoEast = true;
-		        	userScore += 5;
-		        	document.getElementById("Score").innerHTML = userScore;
-		        } else {
-		        	document.getElementById("Score").innerHTML = userScore;
-		        }
-			}
-			function West() {
-				var message = document.getElementById("TextArea");
-				message.value = "You went West!  You're at the river! Sit on a dock, relax, and enjoy the view!";
-		        if (GoWest == false) {
-		        	GoWest = true;
-		        	userScore += 5;
-		        	document.getElementById("Score").innerHTML = userScore;
-		        } else {
-		        	document.getElementById("Score").innerHTML = userScore;
-		        }
-			}
-		</script>
-	<p style = "width: 100%; text-align:center">
-	<br>Score:<p style= "width: 100%; text-align:center;" id="Score"></p>	
-	<p style = "width: 100%; text-align:center">
-	Any questions? <a href="mailto:Kaitlyn.Mulligan1@marist.edu">Email Me!</a>
-	</p>
-	<p style = "width: 100%; text-align:center">
-	Kaitlyn Mulligan Game v0.2
-	</p>	
-	</body>
-	</html>
+    </p>
+    <p style="width: 100%; text-align:center">
+        Command:
+        <input id="Command" type="text" name="Command" />
+        <input id="Go" type="button" value="Go!" onclick="Go();" />
+        <br>
+        <br>
+        <input id="bN" type="button" value="North" onclick="North();" />
+        <input id="bS" type="button" value="South" onclick="South();" />
+        <input id="bE" type="button" value="East" onclick="East();" />
+        <input id="bW" type="button" value="West" onclick="West();" />
+    </p>
+
+
+    <p style="width: 100%; text-align:center">
+        <br>Score:
+        <p style="width: 100%; text-align:center;" id="Score">0</p>
+        <p style="width: 100%; text-align:center">
+            Any questions? <a href="mailto:Kaitlyn.Mulligan1@marist.edu">Email Me!</a>
+        </p>
+        <p style="width: 100%; text-align:center">
+            Kaitlyn Mulligan Game v0.4
+        </p>
+</body>
+
+</html>
