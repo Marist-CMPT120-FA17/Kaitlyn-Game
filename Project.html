@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title> Game v0.4 </title>
+    <title> Game v0.6 </title>
     <style type="text/css">
         body {
             background-color: powderblue
         }
     </style>
-    <!-- Kaitlyn Mulligan Game v0.4 due 10/19/17-->
+    <!-- Kaitlyn Mulligan Game v0.6 due 11/2/17-->
     <script type="text/javascript">
         var Location = 0;
         var userScore = 0;
@@ -41,7 +41,23 @@
                         if (PlayerText === "W") {
                             Response = West();
                         } else {
-                            alert("Invalid command.  Valid commands: N, S, E, W");
+                        	if (PlayerText === "n") {
+                            	Response = North();   
+                            } else {
+                        		if (PlayerText === "s") {
+                            		Response = South(); 
+                            	} else {
+                       				if (PlayerText === "e") {
+                            			Response = East();	
+                            		} else {
+                        				if (PlayerText === "w") {
+                            				Response = West();	
+                        				} else {
+                            				alert("Invalid command.  Valid commands: N, S, E, W, n, s, e, w");
+                            			}	
+                            		}	
+                            	}	
+                            }	
                         }
                     }
                 }
@@ -159,30 +175,65 @@
             }
             Score();
         }
+        
+        function StudentCenter() {
+        	var message = "Student Center: You're standing outside of the Student Center.";
+        	updateDisplay(message);
+        }
+        
+        function Library() {
+        	var message = "Library: You're at the library.  Need to do any research?";
+        	updateDisplay(message);
+        }
+        
+        function Hancock() {
+        	var message = "Hancock: You are now at the Hancock Center.  At the Hancock Center you can go to the math lab or programming lab for extra help.";
+        	updateDisplay(message);
+        }
+        
+        function River() {
+        	var message = "River: You're at the river! Sit on a dock, relax, and enjoy the view!";
+        	updateDisplay(message);
+        }
+        
+        function Underpass() {
+        	var message = "Underpass: You are walking through the underpass to the other side of campus.";
+        	updateDisplay(message)
+        }
+        
+        function AlliedHealth() {
+        	var message = "Allied Health: You are now near the Allied Health building.  Do you take any science classes here?";
+        	updateDisplay(message)
+        }
+        
+        function McCann() {
+        	var message = "McCann: You walked down the stairs and are now at the McCann Center.  Time for a workout?";
+        	updateDisplay(message)
+        }
 
         function look() {
             var desc = "";
             switch (Location) {
                 case 0:
-                    desc = "Student Center: You're standing outside of the Student Center.";
+                    StudentCenter()
                     break;
                 case 1:
-                    desc = "Library: You're at the library.  Need to do any research?";
+                    Library()
                     break;
                 case 2:
-                    desc = "Hancock: You are now at the Hancock Center.  At the Hancock Center you can go to the math lab or programming lab for extra help.";
+                    Hancock()
                     break;
                 case 3:
-                    desc = "River: You're at the river! Sit on a dock, relax, and enjoy the view!";
+                    River()
                     break;
                 case 4:
-                    desc = "Underpass: You are walking through the underpass to the other side of campus.";
+                    Underpass()
                     break;
                 case 5:
-                    desc = "Allied Health: You are now near the Allied Health building.  Do you take any science classes here?";
+                    AlliedHealth()
                     break;
                 case 6:
-                    desc = "McCann: You walked down the stairs and are now at the McCann Center.  Time for a workout?";
+                    McCann()
                     break;
                 default:
                     desc = "Can't go that way.";
@@ -255,7 +306,7 @@
             Any questions? <a href="mailto:Kaitlyn.Mulligan1@marist.edu">Email Me!</a>
         </p>
         <p style="width: 100%; text-align:center">
-            Kaitlyn Mulligan Game v0.4
+            Kaitlyn Mulligan Game v0.6
         </p>
 </body>
 
