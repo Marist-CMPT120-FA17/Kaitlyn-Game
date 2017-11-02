@@ -8,271 +8,20 @@
         body {
             background-color: powderblue
         }
+        .left {
+        	position: absolute;
+        	left: 50px;
+        	top: 150px;
+        }
+        .right {
+        	position: absolute;
+        	right: 15px;
+        	top: 150px;
+        }	
     </style>
+    
     <!-- Kaitlyn Mulligan Game v0.6 due 11/2/17-->
-    <script type="text/javascript">
-        var Location = 0;
-        var userScore = 0;
-
-        var StudentCenter0 = false;
-        var Library1 = false;
-        var Hancock2 = false;
-        var River3 = false;
-        var Underpass4 = false;
-        var AlliedHealth5 = false;
-        var McCann6 = false;
-
-        function init() {
-            look();
-        }
-
-        function Go() {
-            var PlayerText = document.getElementById("Command").value;
-            var Response = "";
-            if (PlayerText === "N") {
-                Response = North();
-            } else {
-                if (PlayerText === "S") {
-                    Response = South();
-                } else {
-                    if (PlayerText === "E") {
-                        Response = East();
-                    } else {
-                        if (PlayerText === "W") {
-                            Response = West();
-                        } else {
-                        	if (PlayerText === "n") {
-                            	Response = North();   
-                            } else {
-                        		if (PlayerText === "s") {
-                            		Response = South(); 
-                            	} else {
-                       				if (PlayerText === "e") {
-                            			Response = East();	
-                            		} else {
-                        				if (PlayerText === "w") {
-                            				Response = West();	
-                        				} else {
-                            				alert("Invalid command.  Valid commands: N, S, E, W, n, s, e, w");
-                            			}	
-                            		}	
-                            	}	
-                            }	
-                        }
-                    }
-                }
-            }
-        }
-
-        function North() {
-            if (Location === 0) {
-                Location = 1;
-                document.getElementById("bN").disabled = false;
-                document.getElementById("bS").disabled = false;
-                document.getElementById("bE").disabled = false;
-                document.getElementById("bW").disabled = true;
-                look();
-            } else if (Location === 1) {
-                Location = 2;
-                document.getElementById("bN").disabled = true;
-                document.getElementById("bS").disabled = false;
-                document.getElementById("bE").disabled = true;
-                document.getElementById("bW").disabled = false;
-                look();
-            } else if (Location === 6) {
-                Location = 0;
-                document.getElementById("bN").disabled = false;
-                document.getElementById("bS").disabled = false;
-                document.getElementById("bE").disabled = true;
-                document.getElementById("bW").disabled = true;
-                look();
-            } else {
-                updateDisplay("You can't go North.");
-            }
-            Score();
-        }
-
-        function South() {
-            if (Location === 0) {
-                Location = 6;
-                document.getElementById("bN").disabled = false;
-                document.getElementById("bS").disabled = true;
-                document.getElementById("bE").disabled = true;
-                document.getElementById("bW").disabled = true;
-                look();
-            } else if (Location === 1) {
-                Location = 0;
-                document.getElementById("bN").disabled = false;
-                document.getElementById("bS").disabled = false;
-                document.getElementById("bE").disabled = true;
-                document.getElementById("bW").disabled = true;
-                look();
-            } else if (Location === 2) {
-                Location = 1;
-                document.getElementById("bN").disabled = false;
-                document.getElementById("bS").disabled = false;
-                document.getElementById("bE").disabled = false;
-                document.getElementById("bW").disabled = true;
-                look();
-            } else {
-                updateDisplay("You can't go that way.");
-            }
-            Score();
-        }
-
-        function East() {
-            if (Location === 3) {
-                Location = 2;
-                document.getElementById("bN").disabled = true;
-                document.getElementById("bS").disabled = false;
-                document.getElementById("bE").disabled = true;
-                document.getElementById("bW").disabled = false;
-                look();
-            } else if (Location === 1) {
-                Location = 4;
-                document.getElementById("bN").disabled = true;
-                document.getElementById("bS").disabled = true;
-                document.getElementById("bE").disabled = false;
-                document.getElementById("bW").disabled = false;
-                look();
-            } else if (Location === 4) {
-                Location = 5;
-                document.getElementById("bN").disabled = true;
-                document.getElementById("bS").disabled = true;
-                document.getElementById("bE").disabled = true;
-                document.getElementById("bW").disabled = false;
-                look();
-            } else {
-                updateDisplay("You can't go that way.");
-            }
-            Score();
-        }
-
-        function West() {
-            if (Location === 5) {
-                Location = 4;
-                document.getElementById("bN").disabled = true;
-                document.getElementById("bS").disabled = true;
-                document.getElementById("bE").disabled = false;
-                document.getElementById("bW").disabled = false;
-                look();
-            } else if (Location === 4) {
-                Location = 1;
-                document.getElementById("bN").disabled = false;
-                document.getElementById("bS").disabled = false;
-                document.getElementById("bE").disabled = false;
-                document.getElementById("bW").disabled = true;
-                look();
-            } else if (Location === 2) {
-                Location = 3;
-                document.getElementById("bN").disabled = true;
-                document.getElementById("bS").disabled = true;
-                document.getElementById("bE").disabled = false;
-                document.getElementById("bW").disabled = true;
-                look();
-            } else {
-                updateDisplay("You can't go that way.");
-            }
-            Score();
-        }
-        
-        function StudentCenter() {
-        	var message = "Student Center: You're standing outside of the Student Center.";
-        	updateDisplay(message);
-        }
-        
-        function Library() {
-        	var message = "Library: You're at the library.  Need to do any research?";
-        	updateDisplay(message);
-        }
-        
-        function Hancock() {
-        	var message = "Hancock: You are now at the Hancock Center.  At the Hancock Center you can go to the math lab or programming lab for extra help.";
-        	updateDisplay(message);
-        }
-        
-        function River() {
-        	var message = "River: You're at the river! Sit on a dock, relax, and enjoy the view!";
-        	updateDisplay(message);
-        }
-        
-        function Underpass() {
-        	var message = "Underpass: You are walking through the underpass to the other side of campus.";
-        	updateDisplay(message)
-        }
-        
-        function AlliedHealth() {
-        	var message = "Allied Health: You are now near the Allied Health building.  Do you take any science classes here?";
-        	updateDisplay(message)
-        }
-        
-        function McCann() {
-        	var message = "McCann: You walked down the stairs and are now at the McCann Center.  Time for a workout?";
-        	updateDisplay(message)
-        }
-
-        function look() {
-            var desc = "";
-            switch (Location) {
-                case 0:
-                    StudentCenter()
-                    break;
-                case 1:
-                    Library()
-                    break;
-                case 2:
-                    Hancock()
-                    break;
-                case 3:
-                    River()
-                    break;
-                case 4:
-                    Underpass()
-                    break;
-                case 5:
-                    AlliedHealth()
-                    break;
-                case 6:
-                    McCann()
-                    break;
-                default:
-                    desc = "Can't go that way.";
-                    break;
-            }
-            updateDisplay(desc);
-        }
-
-        function Score() {
-            if (!StudentCenter0 && Location === 0) {
-                    userScore = userScore + 5;
-                    StudentCenter0 = true;
-            } else if (!Library1 && Location === 1) {
-                userScore = userScore + 5;
-                Library1 = true;
-            } else if (!Hancock2 && Location === 2) {
-                userScore = userScore + 5;
-                Hancock2 = true;
-            } else if (!River3 && Location === 3) {
-                userScore = userScore + 5;
-                River3 = true;
-            } else if (!Underpass4 && Location === 4) {
-                userScore = userScore + 5;
-                Underpass4 = true;
-            } else if (!AlliedHealth5 && Location === 5) {
-                userScore = userScore + 5;
-                AlliedHealth5 = true;
-            } else if (!McCann6 && Location === 6) {
-                userScore = userScore + 5;
-                McCann6 = true;
-            }
-            document.getElementById("Score").innerHTML = userScore;
-        }
-
-        function updateDisplay(msg) {
-            var target = document.getElementById("TextArea");
-            target.value = msg + "\n\n" + target.value;
-        }
-    </script>
+    <script src="locations.js" type="text/javascript"></script>
 
 </head>
 
@@ -286,6 +35,15 @@
         <textarea rows="20" cols="40" id="TextArea">
       	</textarea>
     </p>
+
+    <div id="map" class="left">
+    <img src="map.png" height="400" width="400"></img>
+    </div>
+    
+    <div id="compass" class="right">
+    <img src="compass.png" height="400" width="500"></img>
+    </div>
+    
     <p style="width: 100%; text-align:center">
         Command:
         <input id="Command" type="text" name="Command" />
