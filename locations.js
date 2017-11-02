@@ -1,5 +1,6 @@
 var Location = 0;
 var userScore = 0;
+var inventory = [];
 
 var StudentCenter0 = false;
 var Library1 = false;
@@ -19,44 +20,27 @@ function init() {
 
 function Go() {
     var PlayerText = document.getElementById("Command").value;
+    PlayerText = PlayerText.toLowerCase();
     var Response = "";
-    if (PlayerText === "N") {
+    if (PlayerText === "n") {
         Response = North();
-    } else {
-        if (PlayerText === "S") {
-            Response = South();
-        } else {
-            if (PlayerText === "E") {
-                Response = East();
-            } else {
-                if (PlayerText === "W") {
-                    Response = West();
-                } else {
-                    if (PlayerText === "n") {
-                        Response = North();   
-                    } else {
-                        if (PlayerText === "s") {
-                            Response = South(); 
-                        } else {
-                       		if (PlayerText === "e") {
-                            	Response = East();	
-                            } else {
-                        		if (PlayerText === "w") {
-                            		Response = West();
-                            	} else {	
-                            		if (PlayerText === "Help") {
-                            			HelpMessage();
-                        			} else {
-                            			alert("Invalid command.  Valid commands: N, S, E, W, n, s, e, w, Help");
-                            		}
-                            	}	
-                            }	
-                        }	
-                    }	
-                }
-            }
+    } else if (PlayerText === "s") {
+        Response = South();
+    } else if (PlayerText === "e") {
+    	Response = East();
+    } else if (PlayerText === "w") {
+        Response = West();
+    } else if (PlayerText === "help") {
+        HelpMessage();
+    } else if	(PlayerText === "list") {
+        for (var i = 0; i < inventory.length; ++i) {
+            updateDisplay(inventory[i]);
         }
-    }
+    } else if (PlayerText === "take") {
+        takeitem();
+    } else {
+        alert("Invalid command.  Valid commands: N, S, E, W, Help, List, Take");
+    }	
 }
 
 function North() {
@@ -104,6 +88,7 @@ function North() {
         look();
     } else {
         updateDisplay("You can't go that way.");
+        return;
     }
     Score();
 }
@@ -153,6 +138,7 @@ function South() {
         look();
     } else {
         updateDisplay("You can't go that way.");
+        return;
     }
     Score();
 }
@@ -202,6 +188,7 @@ function East() {
         look();
     } else {
         updateDisplay("You can't go that way.");
+        return;
     }
     Score();
 }
@@ -251,22 +238,23 @@ function West() {
         look();
     } else {
         updateDisplay("You can't go that way.");
+        return;
     }
     Score();
 }
         
 function StudentCenter() {
-    var message = "Student Center: You're standing outside of the Student Center.";
+    var message = "Student Center: You're standing outside of the Student Center.  There is a SPC calendar here.  Take it?";
     updateDisplay(message);
 }
         
 function Library() {
-    var message = "Library: You're at the library.  Need to do any research?";
+    var message = "Library: You're at the library.  Need to do any research?  There is a book on the table.  Take it?";
     updateDisplay(message);
 }
         
 function Hancock() {
-    var message = "Hancock: You are now at the Hancock Center.  At the Hancock Center you can go to the math lab or programming lab for extra help.";
+    var message = "Hancock: You are now at the Hancock Center.  At the Hancock Center you can go to the math lab or programming lab for extra help.  You can take a drink from Starbucks.";
     updateDisplay(message);
 }
         
@@ -291,12 +279,12 @@ function McCann() {
 }
 
 function Donnelly() {
-    var message = "Donnelly: You are now at Donnelly.  Here you can find many important offices such as the registrar, security, and the help desk.";
+    var message = "Donnelly: You are now at Donnelly.  Here you can find many important offices such as the registrar, security, and the help desk.  You can go take your paycheck.";
     updateDisplay(message)
 }
 
 function TenneyStadium() {
-    var message = "Tenney Stadium: You walked to Tenney Stadium.  Enjoy a game of football, soccer, and any other teams that play here.";
+    var message = "Tenney Stadium: You walked to Tenney Stadium.  Enjoy a game of football, soccer, and any other teams that play here.  They are giving out free tickets right now.  Take one?";
     updateDisplay(message)
 }
 
@@ -391,6 +379,24 @@ function Score() {
     document.getElementById("Score").innerHTML = userScore;
 }
 
+function takeitem() {
+	if (Location === 0 && inventory.indexOf("SPC Calendar") === -1) {
+		inventory.push("SPC Calendar");	
+	}
+	else if (Location === 1 && inventory.indexOf("Book") === -1) {
+		inventory.push("Book");
+	}	
+	else if (Location === 2 && inventory.indexOf("Drink from Starbucks") === -1) {
+		inventory.push("Drink from Starbucks");
+	}	
+	else if (Location === 7 && inventory.indexOf("Paycheck") === -1) {
+		inventory.push("Paycheck");
+	}
+	else if (Location === 8 && inventory.indexOf("Ticket for the game") === -1) {
+		inventory.push("Ticket for the game");
+	}
+}		
+	
 function updateDisplay(msg) {
     var target = document.getElementById("TextArea");
     target.value = msg + "\n\n" + target.value;
