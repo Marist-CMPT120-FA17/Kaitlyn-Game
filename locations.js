@@ -1,18 +1,8 @@
-var Location = 0;
+var currentLoc = 0;
 var userScore = 0;
 var inventory = [];
-
-var StudentCenter0 = false;
-var Library1 = false;
-var Hancock2 = false;
-var River3 = false;
-var Underpass4 = false;
-var AlliedHealth5 = false;
-var McCann6 = false;
-var Donnelly7 = false;
-var TenneyStadium8 = false;
-var Foy9 = false;
-var Dyson10 = false;
+var Location = [];
+var Items = [];
 
 function init() {
     look();
@@ -43,44 +33,136 @@ function Go() {
     }	
 }
 
+function Locations(id, name, description, item) {
+	this.id = id;
+	this.name = name;
+	this.description = description;
+	this.item = item;
+	this.check = 0;
+	this.displayText = function () {
+		return(this.description);
+	}
+}
+
+	var StudentCenter0 = new Locations (0, "Student Center", "Student Center: You're standing outside of the Student Center.  There is a SPC calendar here.  Take it?", "Calendar")
+	var Library1 = new Locations (1, "Library", "Library: You're at the library.  Need to do any research?  There is a book on the table.  Take it?", "Book")
+	var Hancock2 = new Locations (2, "Hancock", "Hancock: You are now at the Hancock Center.  At the Hancock Center you can go to the math lab or programming lab for extra help.  You can take a drink from Starbucks.", "Coffee")
+	var River3 = new Locations (3, "River", "River: You're at the river! Sit on a dock, relax, and enjoy the view!", null)
+	var Underpass4 = new Locations (4, "Underpass", "Underpass: You are walking through the underpass to the other side of campus.", null)
+	var AlliedHealth5 = new Locations (5, "Allied Health", "Allied Health: You are now near the Allied Health building.  Do you take any science classes here?", null)
+	var McCann6 = new Locations (6, "McCann", "McCann: You walked down the stairs and are now at the McCann Center.  Time for a workout?", null)
+	var Donnelly7 = new Locations (7, "Donnelly", "Donnelly: You are now at Donnelly.  Here you can find many important offices such as the registrar, security, and the help desk.  You can go take your paycheck.", "Paycheck")
+	var TenneyStadium8 = new Locations (8, "Tenney Stadium", "Tenney Stadium: You walked to Tenney Stadium.  Enjoy a game of football, soccer, and any other teams that play here.  They are giving out free tickets right now.  Take one?", "Ticket")
+	var Foy9 = new Locations (9, "Foy", "Foy: You are now in the Foy residence area.  This is sophomore housing.", null)
+	var Dyson10 = new Locations (10, "Dyson", "Dyson: You're at the Dyson Center.  The Dyson Center holds many business and education classes.", null)
+	location[0] = StudentCenter0
+	location[1] = Library1
+	location[2] = Hancock2
+	location[3] = River3
+	location[4] = Underpass4
+	location[5] = AlliedHealth5
+	location[6] = McCann6
+	location[7] = Donnelly7
+	location[8] = TenneyStadium8
+	location[9] = Foy9
+	location[10] = Dyson10
+	Location.push (StudentCenter0,Library1,Hancock2,River3,Underpass4,AlliedHealth5,McCann6,Donnelly7,TenneyStadium8,Foy9,Dyson10);
+
+function Items(id, name, description) {
+	this.id = id;
+	this.name = name;
+	this.description = description;
+	this.check = 0;
+}
+	var Calendar = new Items (0,"Calendar","You picked up the SPC Calendar.");
+	var Book = new Items (1,"Book","You picked up a book.");
+	var Coffee = new Items (2,"Coffee","You got a coffee from Starbucks,");
+	var Paycheck = new Items (3,"Paycheck","You picked up your paycheck.");
+	var Ticket = new Items (4,"Ticket","You got a ticket to the game.");
+
+	items.push (Calendar,Book,Coffee,Paycheck,Ticket);
+	
+function takeitem() {
+	if (Location[0]) {
+		if (Calendar.check == 0) {
+			inventory.push(Calendar.name);	
+			UpdateInventory(Calendar.description);
+			Calendar.check = 1;
+		}	
+	}
+	else if (Location[1]) {
+		if (Book.check == 0) {
+			inventory.push(Book.name);	
+			UpdateInventory(Book.description);
+			Book.check = 1;
+		}
+	}	
+	else if (Location[2]) {
+		if (Coffee.check == 0) {
+			inventory.push(Coffee.name);	
+			UpdateInventory(Coffee.description);
+			Coffee.check = 1;
+		}
+	}	
+	else if (Location[7]) {
+		if (Paycheck.check == 0) {
+			inventory.push(Paycheck.name);	
+			UpdateInventory(Paycheck.description);
+			Paycheck.check = 1;
+		}
+	}
+	else if (Location[8]) {
+		if (Ticket.check == 0) {
+			inventory.push(Ticket.name);	
+			UpdateInventory(Ticket.description);
+			Ticket.check = 1;
+		}
+	}
+}	
+
+function listInventory () {
+	var message = "inventory:\n" + inventory;
+	UpdateInventory(message);
+}
+
 function North() {
-    if (Location === 0) {
-        Location = 1;
+    if (currentLoc === 0) {
+        currentLoc = 1;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = false;
         document.getElementById("bW").disabled = true;
         look();
-    } else if (Location === 1) {
-        Location = 2;
+    } else if (currentLoc === 1) {
+        currentLoc = 2;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = true;
         document.getElementById("bW").disabled = false;
         look();
-    } else if (Location === 6) {
-        Location = 0;
+    } else if (currentLoc === 6) {
+        currentLoc = 0;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = false;
         document.getElementById("bW").disabled = true;
         look();
-	} else if (Location === 2) {
-        Location = 9;
+	} else if (currentLoc === 2) {
+        currentLoc = 9;
         document.getElementById("bN").disabled = true;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = false;
         document.getElementById("bW").disabled = true;
         look();
-    } else if (Location === 8) {
-        Location = 7;
+    } else if (currentLoc === 8) {
+        currentLoc = 7;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = true;
         document.getElementById("bW").disabled = false;
         look();
-    } else if (Location === 7) {
-        Location = 4;
+    } else if (currentLoc === 7) {
+        currentLoc = 4;
         document.getElementById("bN").disabled = true;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = false;
@@ -94,43 +176,43 @@ function North() {
 }
 
 function South() {
-    if (Location === 0) {
-        Location = 6;
+    if (currentLoc === 0) {
+        currentLoc = 6;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = true;
         document.getElementById("bE").disabled = false;
         document.getElementById("bW").disabled = true;
         look();
-    } else if (Location === 1) {
-        Location = 0;
+    } else if (currentLoc === 1) {
+        currentLoc = 0;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = false;
         document.getElementById("bW").disabled = true;
         look();
-    } else if (Location === 2) {
-        Location = 1;
+    } else if (currentLoc === 2) {
+        currentLoc = 1;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = false;
         document.getElementById("bW").disabled = true;
         look();
-    } else if (Location === 9) {
-        Location = 2;
+    } else if (currentLoc === 9) {
+        currentLoc = 2;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = true;
         document.getElementById("bW").disabled = false;
         look();
-    } else if (Location === 4) {
-        Location = 7;
+    } else if (currentLoc === 4) {
+        currentLoc = 7;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = true;
         document.getElementById("bW").disabled = false;
         look();
-    } else if (Location === 7) {
-        Location = 8;
+    } else if (currentLoc === 7) {
+        currentLoc = 8;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = true;
         document.getElementById("bE").disabled = true;
@@ -144,43 +226,43 @@ function South() {
 }
 
 function East() {
-    if (Location === 3) {
-        Location = 2;
+    if (currentLoc === 3) {
+        currentLoc = 2;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = true;
         document.getElementById("bW").disabled = false;
         look();
-    } else if (Location === 1) {
-        Location = 4;
+    } else if (currentLoc === 1) {
+        currentLoc = 4;
         document.getElementById("bN").disabled = true;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = false;
         document.getElementById("bW").disabled = false;
         look();
-    } else if (Location === 4) {
-        Location = 5;
+    } else if (currentLoc === 4) {
+        currentLoc = 5;
         document.getElementById("bN").disabled = true;
         document.getElementById("bS").disabled = true;
         document.getElementById("bE").disabled = true;
         document.getElementById("bW").disabled = false;
         look();
-    } else if (Location === 9) {
-        Location = 10;
+    } else if (currentLoc === 9) {
+        currentLoc = 10;
         document.getElementById("bN").disabled = true;
         document.getElementById("bS").disabled = true;
         document.getElementById("bE").disabled = true;
         document.getElementById("bW").disabled = false;
         look();
-    } else if (Location === 0) {
-        Location = 7;
+    } else if (currentLoc === 0) {
+        currentLoc = 7;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = true;
         document.getElementById("bW").disabled = false;
         look();
-    } else if (Location === 6) {
-        Location = 8;
+    } else if (currentLoc === 6) {
+        currentLoc = 8;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = true;
         document.getElementById("bE").disabled = true;
@@ -194,43 +276,43 @@ function East() {
 }
 
 function West() {
-    if (Location === 5) {
-        Location = 4;
+    if (currentLoc === 5) {
+        currentLoc = 4;
         document.getElementById("bN").disabled = true;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = false;
         document.getElementById("bW").disabled = false;
         look();
-    } else if (Location === 4) {
-        Location = 1;
+    } else if (currentLoc === 4) {
+        currentLoc = 1;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = false;
         document.getElementById("bW").disabled = true;
         look();
-    } else if (Location === 2) {
-        Location = 3;
+    } else if (currentLoc === 2) {
+        currentLoc = 3;
         document.getElementById("bN").disabled = true;
         document.getElementById("bS").disabled = true;
         document.getElementById("bE").disabled = false;
         document.getElementById("bW").disabled = true;
         look();
-    } else if (Location === 10) {
-        Location = 9;
+    } else if (currentLoc === 10) {
+        currentLoc = 9;
         document.getElementById("bN").disabled = true;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = false;
         document.getElementById("bW").disabled = true;
         look();
-    } else if (Location === 7) {
-        Location = 0;
+    } else if (currentLoc === 7) {
+        currentLoc = 0;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = false;
         document.getElementById("bE").disabled = false;
         document.getElementById("bW").disabled = true;
         look();
-    } else if (Location === 8) {
-        Location = 6;
+    } else if (currentLoc === 8) {
+        currentLoc = 6;
         document.getElementById("bN").disabled = false;
         document.getElementById("bS").disabled = true;
         document.getElementById("bE").disabled = false;
@@ -342,59 +424,41 @@ function look() {
 }
 
 function Score() {
-    if (!StudentCenter0 && Location === 0) {
+    if (!StudentCenter0 && currentLoc === 0) {
             userScore = userScore + 5;
             StudentCenter0 = true;
-    } else if (!Library1 && Location === 1) {
+    } else if (!Library1 && currentLoc === 1) {
         userScore = userScore + 5;
         Library1 = true;
-    } else if (!Hancock2 && Location === 2) {
+    } else if (!Hancock2 && currentLoc === 2) {
         userScore = userScore + 5;
         Hancock2 = true;
-    } else if (!River3 && Location === 3) {
+    } else if (!River3 && currentLoc === 3) {
         userScore = userScore + 5;
         River3 = true;
-    } else if (!Underpass4 && Location === 4) {
+    } else if (!Underpass4 && currentLoc === 4) {
         userScore = userScore + 5;
         Underpass4 = true;
-    } else if (!AlliedHealth5 && Location === 5) {
+    } else if (!AlliedHealth5 && currentLoc === 5) {
         userScore = userScore + 5;
         AlliedHealth5 = true;
-    } else if (!McCann6 && Location === 6) {
+    } else if (!McCann6 && currentLoc === 6) {
         userScore = userScore + 5;
         McCann6 = true;
-    } else if (!Donnelly7 && Location === 7) {
+    } else if (!Donnelly7 && currentLoc === 7) {
         userScore = userScore + 5;
         Donnelly7 = true;
-    } else if (!TenneyStadium8 && Location === 8) {
+    } else if (!TenneyStadium8 && currentLoc === 8) {
         userScore = userScore + 5;
         TenneyStadium8 = true;
-    } else if (!Foy9 && Location === 9) {
+    } else if (!Foy9 && currentLoc === 9) {
         userScore = userScore + 5;
         Foy9 = true;
-    } else if (!Dyson10 && Location === 10) {
+    } else if (!Dyson10 && currentLoc === 10) {
         userScore = userScore + 5;
         Dyson10 = true;
     }
     document.getElementById("Score").innerHTML = userScore;
-}
-
-function takeitem() {
-	if (Location === 0 && inventory.indexOf("SPC Calendar") === -1) {
-		inventory.push("SPC Calendar");	
-	}
-	else if (Location === 1 && inventory.indexOf("Book") === -1) {
-		inventory.push("Book");
-	}	
-	else if (Location === 2 && inventory.indexOf("Drink from Starbucks") === -1) {
-		inventory.push("Drink from Starbucks");
-	}	
-	else if (Location === 7 && inventory.indexOf("Paycheck") === -1) {
-		inventory.push("Paycheck");
-	}
-	else if (Location === 8 && inventory.indexOf("Ticket for the game") === -1) {
-		inventory.push("Ticket for the game");
-	}
 }		
 	
 function updateDisplay(msg) {
@@ -403,7 +467,7 @@ function updateDisplay(msg) {
 }
 
 function HelpMessage() {
-	alert("Click the directional buttons to change locations or enter the commands: N, S, E, W, n, s, e, w to change locations.  Locations and compass are displayed.");
-	var message = "Click the directional buttons to change locations or enter the commands: N, S, E, W, n, s, e, w to change locations.  Locations and compass are displayed.";
+	alert("Click the directional buttons to change locations or enter the commands: N, S, E, W to change locations.  Locations and compass are displayed.  Enter the command Take to take an item and List to list your inventory.");
+	var message = "Click the directional buttons to change locations or enter the commands: N, S, E, W to change locations.  Locations and compass are displayed.  Enter the command Take to take an item and List to list your inventory.";
 	updateDisplay(message);
 }
