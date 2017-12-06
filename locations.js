@@ -4,8 +4,7 @@ var inventory = [];
 var Items = [];
 
 function init() {
-    message = "Student Center: You're standing outside of the Student Center.  There is a SPC calendar here.  Take it?";
-    updateDisplay(message);
+    look();
 }
 
 function Go() {
@@ -101,7 +100,6 @@ function look() {
 	var message = "";
 	message = locations[currentLoc];
 	var checkItem = locations[currentLoc].item;
-	console.log(locations[currentLoc].item)
 	if (checkItem !== null) {
 		message = message + checkItem;
 	}
