@@ -16,8 +16,13 @@
         .right {
         	position: absolute;
         	right: 15px;
-        	top: 150px;
+        	top: 175px;
         }	
+        .right2 {
+        	position: absolute;
+        	right: 170px;
+        	top: 130px;
+        }
     </style>
     
     <!-- Kaitlyn Mulligan Game v1.0 due 12/7/17-->
@@ -44,16 +49,25 @@
     <img src="compass.png" height="400" width="500">
     </div>
     
+    <div id="objective" class="right2">
+    <p style="text-align:left">
+    <u>To win:</u>
+    <br>Make it to the river.  There's more to
+    <br>it than just navigating there.  You need
+    <br>to fulfill the unknown requirements.
+    </p>
+    </div>
+    
     <p style="width: 100%; text-align:center">
         Command:
         <input id="Command" type="text" name="Command" />
         <input id="Go" type="button" value="Go!" onclick="Go();" />
         <br>
         <br>
-        <input id="bN" type="button" value="North" onclick="North();" />
-        <input id="bS" type="button" value="South" onclick="South();" />
-        <input id="bE" type="button" value="East" onclick="East();" />
-        <input id="bW" type="button" value="West" onclick="West();" disabled />
+        <input id="bN" type="button" value="North" onclick="btnNorth_click();" />
+        <input id="bS" type="button" value="South" onclick="btnSouth_click();" />
+        <input id="bE" type="button" value="East" onclick="btnEast_click();" />
+        <input id="bW" type="button" value="West" onclick="btnWest_click();" />
     </p>
 
 

@@ -3,6 +3,13 @@ var userScore = 0;
 var inventory = [];
 var Items = [];
 
+var isPlaying = true;
+
+var North = 0;
+var South = 1;
+var East = 2;
+var West = 3;
+
 function init() {
     look();
 }
@@ -11,25 +18,27 @@ function Go() {
     var PlayerText = document.getElementById("Command").value;
     PlayerText = PlayerText.toLowerCase();
     var Response = "";
-    if (PlayerText === "n") {
-        Response = North();
-    } else if (PlayerText === "s") {
-        Response = South();
-    } else if (PlayerText === "e") {
-    	Response = East();
-    } else if (PlayerText === "w") {
-        Response = West();
-    } else if (PlayerText === "help") {
-        HelpMessage();
-    } else if	(PlayerText === "inventory") {
-        for (var i = 0; i < inventory.length; ++i) {
-            updateDisplay(inventory[i]);
-        }
-    } else if (PlayerText === "take") {
-        takeitem();
-    } else {
-        alert("Invalid command.  Valid commands: N, S, E, W, Help, Inventory, Take");
-    }	
+    if(isPlaying == true){
+		if (PlayerText === "n") {
+			Response = btnNorth_click();
+		} else if (PlayerText === "s") {
+			Response = btnSouth_click();
+		} else if (PlayerText === "e") {
+			Response = btnEast_click();
+		} else if (PlayerText === "w") {
+			Response = btnWest_click();
+		} else if (PlayerText === "help") {
+			HelpMessage();
+		} else if	(PlayerText === "inventory") {
+			for (var i = 0; i < inventory.length; ++i) {
+				updateDisplay(inventory[i]);
+			}
+		} else if (PlayerText === "take") {
+			takeitem();
+		} else {
+			alert("Invalid command.  Valid commands: N, S, E, W, Help, Inventory, Take");
+		}	
+	}	
 }
 
 function Locations(id, name, description, item) {
@@ -106,232 +115,82 @@ function look() {
 	updateDisplay(message);
 }
 
-function North() {
-	switch (currentLoc) {
-		case 0:
-			currentLoc = 1;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = true;
-			look();
-			break;
-    	case 1:
-			currentLoc = 2;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = true;
-			document.getElementById("bW").disabled = false;
-			look();
-			break;
-    	case 6:
-			currentLoc = 0;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = true;
-			look();
-			break;
-		case 2:
-			currentLoc = 9;
-			document.getElementById("bN").disabled = true;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = true;
-			look();
-			break;
-    	case 8:
-			currentLoc = 7;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = true;
-			document.getElementById("bW").disabled = false;
-			look();
-			break;
-    	case 7:
-			currentLoc = 4;
-			document.getElementById("bN").disabled = true;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = false;
-			look();
-			break;
-    	default:
-        	updateDisplay("You can't go that way.");
-        	return;
-    	}
-    Score();
-}
+var btn = ["btnNorth","btnSouth","btnEast","btnWest"]
+var nav = [/*N S E W*/
+			   [1,6,7,-1],		//0			
+			   [2,0,4,-1],		//1
+			   [9,1,-1,3],		//2
+			   [-1,-1,2,-1],	//3
+			   [-1,7,5,1],		//4
+			   [-1,-1,-1,4],	//5
+			   [0,-1,8,-1],		//6
+			   [4,8,-1,0],		//7
+			   [7,-1,-1,6],		//8
+			   [-1,2,10,-1],	//9
+			   [-1,-1,-1,9],	//10
+			   ]
 
-function South() {
-	switch (currentLoc) {
-    	case 0:
-			currentLoc = 6;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = true;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = true;
-			look();
-			break;
-    	case 1:
-			currentLoc = 0;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = true;
-			look();
-			break;
-    	case 2:
-			currentLoc = 1;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = true;
-			look();
-			break;
-    	case 9:
-			currentLoc = 2;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = true;
-			document.getElementById("bW").disabled = false;
-			look();
-			break;
-    	case 4:
-			currentLoc = 7;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = true;
-			document.getElementById("bW").disabled = false;
-			look();
-			break;
-    	case 7:
-			currentLoc = 8;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = true;
-			document.getElementById("bE").disabled = true;
-			document.getElementById("bW").disabled = false;
-			look();
-			break;
-    	default:
-        	updateDisplay("You can't go that way.");
-        	return;
-    	}
-    Score();
-}
+var NoBtn =	[/*N S E W*/
+			[0,0,0,1],  //0
+			[0,0,0,1],	//1
+			[0,0,1,0],	//2
+			[1,1,0,1],	//3
+			[1,0,0,0],	//4
+			[1,1,1,0],	//5
+			[0,1,0,1],	//6
+			[0,0,1,0],	//7
+			[0,1,1,0],	//8
+			[1,0,0,1],	//9
+			[1,1,1,0],  //10
+			]
 
-function East() {
-	switch (currentLoc) {
-    	case 3:
-			currentLoc = 2;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = true;
-			document.getElementById("bW").disabled = false;
-			look();
-			break;
-    	case 1:
-			currentLoc = 4;
-			document.getElementById("bN").disabled = true;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = false;
-			look();
-			break;
-    	case 4:
-			currentLoc = 5;
-			document.getElementById("bN").disabled = true;
-			document.getElementById("bS").disabled = true;
-			document.getElementById("bE").disabled = true;
-			document.getElementById("bW").disabled = false;
-			look();
-			break;
-    	case 9:
-			currentLoc = 10;
-			document.getElementById("bN").disabled = true;
-			document.getElementById("bS").disabled = true;
-			document.getElementById("bE").disabled = true;
-			document.getElementById("bW").disabled = false;
-			look();
-			break;
-    	case 0:
-			currentLoc = 7;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = true;
-			document.getElementById("bW").disabled = false;
-			look();
-			break;
-    	case 6:
-			currentLoc = 8;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = true;
-			document.getElementById("bE").disabled = true;
-			document.getElementById("bW").disabled = false;
-			look();
-			break;
-    	default:
-        	updateDisplay("You can't go that way.");
-        	return;
-    	}
-    Score();
-}
+function btnNorth_click() {
+	nextLoc(North);
+ }
 
-function West() {
-	switch (currentLoc) {
-    	case 5:
-			currentLoc = 4;
-			document.getElementById("bN").disabled = true;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = false;
+function btnSouth_click() {
+	nextLoc(South);
+ }
+
+ function btnEast_click() {
+	nextLoc(East);
+ }
+
+ function btnWest_click() {
+	nextLoc(West);            
+	
+ }
+                  
+ function nextLoc(dir) {
+	var newLoc = nav[currentLoc][dir];
+	if (newLoc >= 0) {
+		if (newLoc==3 && inventory.length==5 && userScore==50){
+			currentLoc = newLoc;
 			look();
-			break;
-    	case 4:
-			currentLoc = 1;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = true;
+			updateDisplay("Congratulations! You won!");
+			isPlaying = false;
+		}else if (newLoc==3){
+			updateDisplay("You can't go to the river yet.");		
+		}else{
+			currentLoc = newLoc;
 			look();
-			break;
-    	case 2:
-			currentLoc = 3;
-			document.getElementById("bN").disabled = true;
-			document.getElementById("bS").disabled = true;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = true;
-			look();
-			break;
-    	case 10:
-			currentLoc = 9;
-			document.getElementById("bN").disabled = true;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = true;
-			look();
-			break;
-    	case 7:
-			currentLoc = 0;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = false;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = true;
-			look();
-			break;
-    	case 8:
-			currentLoc = 6;
-			document.getElementById("bN").disabled = false;
-			document.getElementById("bS").disabled = true;
-			document.getElementById("bE").disabled = false;
-			document.getElementById("bW").disabled = true;
-			look();
-			break;
-    	default:
-        	updateDisplay("You can't go that way.");
-        	return;
-    	}
-    Score();
+		}
+	} else {
+	   updateDisplay("You can't go that way.");
+	} 
+	Score();           
+ }
+ 
+ function Disable() {
+	var disable = 0;
+	for (j=0; j < btn.length; j++) {
+		disable = NoBtn[currentLoc][j];
+	  if (disable === 1) {
+	  document.getElementById(btn[j]).disabled = true;
+	  	} else {
+	  	document.getElementById(btn[j]).disabled = false;
+	 	}
+	}
 }
 
 function Score() {
