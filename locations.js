@@ -12,6 +12,7 @@ var West = 3;
 
 function init() {
     look();
+    Disable();
 }
 
 function Go() {
@@ -115,7 +116,7 @@ function look() {
 	updateDisplay(message);
 }
 
-var btn = ["btnNorth","btnSouth","btnEast","btnWest"]
+var btn = ["bN","bS","bE","bW"]
 var nav = [/*N S E W*/
 			   [1,6,7,-1],		//0			
 			   [2,0,4,-1],		//1
@@ -134,7 +135,7 @@ var NoBtn =	[/*N S E W*/
 			[0,0,0,1],  //0
 			[0,0,0,1],	//1
 			[0,0,1,0],	//2
-			[1,1,0,1],	//3
+			[1,1,1,1],	//3
 			[1,0,0,0],	//4
 			[1,1,1,0],	//5
 			[0,1,0,1],	//6
@@ -145,20 +146,19 @@ var NoBtn =	[/*N S E W*/
 			]
 
 function btnNorth_click() {
-	nextLoc(North);
+		nextLoc(North);
  }
 
 function btnSouth_click() {
-	nextLoc(South);
+		nextLoc(South);
  }
 
  function btnEast_click() {
-	nextLoc(East);
+		nextLoc(East);
  }
 
  function btnWest_click() {
-	nextLoc(West);            
-	
+		nextLoc(West);            
  }
                   
  function nextLoc(dir) {
@@ -169,11 +169,13 @@ function btnSouth_click() {
 			look();
 			updateDisplay("Congratulations! You won!");
 			isPlaying = false;
+			Disable();
 		}else if (newLoc==3){
 			updateDisplay("You can't go to the river yet.");		
 		}else{
 			currentLoc = newLoc;
 			look();
+			Disable();
 		}
 	} else {
 	   updateDisplay("You can't go that way.");
